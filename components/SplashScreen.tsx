@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { EraData, EraId } from '../types';
+import { EraData } from '../types';
 import { ERAS } from '../constants';
-import { Camera } from 'lucide-react';
 
 interface SplashScreenProps {
   onStart: () => void;
@@ -15,7 +14,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
   const mountRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isExiting, setIsExiting] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
   const isExitingRef = useRef(false);
 
   const unmuteVideo = () => {
@@ -33,21 +31,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
     }
   };
 
-  const handleStartInteraction = () => {
-    if (!hasStarted) {
-      setHasStarted(true);
-      unmuteVideo();
-    }
+  const handleInteraction = () => {
+    unmuteVideo();
   };
 
-  const handleEraClick = (era: EraData) => {
+  const handleVideoEnded = () => {
     if (isExiting) return;
-    unmuteVideo();
 
     setIsExiting(true);
     isExitingRef.current = true;
+    
+    // Select random era
+    const randomEra = ERAS[Math.floor(Math.random() * ERAS.length)];
+    
     setTimeout(() => {
-      onSelectEra(era);
+      onSelectEra(randomEra);
     }, 1800);
   };
 
@@ -160,115 +158,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
   return (
     <div
       className="h-full w-full relative overflow-hidden bg-black"
-      onClick={handleStartInteraction}
+      onClick={handleInteraction}
     >
       {/* Background Video Layer */}
       <div
         className={`absolute inset-0 transition-all duration-[1800ms] ease-in-out ${isExiting ? 'opacity-0 scale-110 blur-2xl' : 'opacity-100 scale-100'}`}
       >
         <video
-          key={hasStarted ? 'welcome' : 'idle'}
           ref={videoRef}
           autoPlay
-          loop
           muted={isMuted}
           playsInline
+          onEnded={handleVideoEnded}
           className="w-full h-full object-cover"
-          src={hasStarted ? "./IsisV1_Welcome_01.mp4" : "./isis_test.mp4"}
+          src="./isis_test.mp4"
         />
-      </div>
-
-      {/* Intro Frame Layer */}
-      {/* <div
-        className={`absolute inset-0 transition-all duration-[2000ms] ease-in-out ${isExiting ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
-      >
-        <img
-          src="./Splash-Screen/IntroFrame.png"
-          alt=""
-          draggable="false"
-          className="w-full h-full object-fill drop-shadow-[0_0_50px_rgba(0,0,0,0.8)]"
-        />
-      </div> */}
-
-      {/* Tap to Start Hint */}
-      {!hasStarted && !isExiting && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
-          <div className="flex flex-col items-center gap-6 animate-pulse">
-            <div className="relative">
-              <div className="absolute inset-0 bg-yellow-500/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
-              <div className="relative border-2 border-yellow-500/50 py-4 px-12 rounded-full bg-black/40 backdrop-blur-md">
-                <span className="text-yellow-500 text-3xl font-bold uppercase tracking-[0.5em] whitespace-nowrap">
-                  Tap to Start
-                </span>
-              </div>
-            </div>
-            <p className="text-white/70 text-sm uppercase tracking-[0.3em] font-light">Experience the Time Machine</p>
-          </div>
-        </div>
-      )}
-
-      {/* Footer & Eras Layer */}
-      <div
-        className={`absolute bottom-0 left-0 w-full z-10 transition-all duration-[2200ms] ease-in-out ${isExiting
-          ? 'opacity-0 translate-y-10'
-          : hasStarted
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 translate-y-20 pointer-events-none'
-          }`}
-      >
-        <div className="relative flex flex-col items-center justify-end w-full pb-8">
-          {/* Era Selection Row */}
-          <div className="flex justify-center items-end gap-1 md:gap-4 mb-6 px-2 w-full max-w-7xl">
-            {ERAS.map((era) => (
-              <div
-                key={era.id}
-                className="flex flex-col items-center gap-1 group cursor-pointer transition-transform hover:scale-105 active:scale-95"
-                onClick={() => handleEraClick(era)}
-              >
-                {/* Preview Image (Renders as is, already has border) */}
-                <div className="relative w-[18.5vw] h-[31vw] md:w-40 md:h-64 flex items-center justify-center">
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <img
-                      src={era.previewImage}
-                      alt={era.name}
-                      draggable="false"
-                      className="w-full h-full object-contain grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
-                    />
-
-                    {/* Snap a Memory specific Camera icon overlay */}
-                    {era.id === EraId.SNAP_A_MEMORY && (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <div className="bg-black/40 p-3 rounded-full backdrop-blur-sm group-hover:scale-110 transition-transform duration-500">
-                          <Camera className="w-8 h-8 md:w-12 md:h-12 text-yellow-500" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Footer Image Underlying everything */}
-          <div className="absolute bottom-0 left-0 w-full pointer-events-none -z-10">
-            <img
-              src="./Splash-Screen/Splash-Footer.png"
-              alt=""
-              draggable="false"
-              className="w-full h-auto object-contain"
-            />
-          </div>
-
-          {/* Tap to Enter Pulsing Text */}
-          <div className="mb-4">
-            <div className="relative">
-              <div className="absolute inset-0 bg-yellow-500/20 blur-xl rounded-lg animate-pulse"></div>
-              <div className="relative border-b border-t border-yellow-500/30 py-2 px-8">
-                <span className="text-white text-sm uppercase tracking-[0.4em] font-light animate-pulse whitespace-nowrap">Choose your era</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Particles Layer (Three.js) */}

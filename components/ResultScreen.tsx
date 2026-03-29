@@ -79,10 +79,10 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, er
 
         const formData = new FormData();
         formData.append('image', blob, 'result.png');
-        formData.append('folder', 'kemet-mirror');
+        formData.append('folder', 'Cairo-2100');
         formData.append('metadata', JSON.stringify({
-          event: 'Cairo Airport Photobooth',
-          photobooth_id: 'kemet_mirror_1',
+          event: 'Cairo 2100 AUC Tahrir',
+          photobooth_id: 'Cairo_2100',
           era: era.name,
           prompt: prompt
         }));
@@ -109,7 +109,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, er
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = imageSrc;
-    link.download = `chronolens-${era.id}-${Date.now()}.png`;
+    link.download = `Cairo-2100-${era.id}-${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

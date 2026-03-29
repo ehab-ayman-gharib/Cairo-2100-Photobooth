@@ -10,7 +10,7 @@ const getAiClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
-const DASHBOARD_API_URL = "https://ai-photobooth-dashboard.vercel.app/api/projects/ee7c55cd-39d5-481c-84e5-691c1a3f100e/generate";
+const DASHBOARD_API_URL = "https://ai-photobooth-dashboard.vercel.app/api/projects/168f20dc-d717-4f62-902d-db030f95bfd5/generate";
 
 /**
  * Increments the generated images count on the dashboard
