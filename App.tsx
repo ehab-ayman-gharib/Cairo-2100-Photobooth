@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>(AppScreen.SPLASH);
   const [selectedEra, setSelectedEra] = useState<EraData | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [rawGeneratedImage, setRawGeneratedImage] = useState<string | null>(null);
   const [generatedPrompt, setGeneratedPrompt] = useState<string>('');
   const [faceDetectionResult, setFaceDetectionResult] = useState<FaceDetectionResult | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
@@ -55,10 +56,12 @@ const App: React.FC = () => {
           setGeneratedPrompt(result.prompt);
         }
 
-        // Apply Era Stamp/Frame (Works for both AI and non-AI modes)
-        const stampedImage = await applyEraStamp(resultImage, selectedEra);
+        setRawGeneratedImage(resultImage);
 
+        // Apply Era Stamp/Frame for PREVIEW (No margins)
+        const stampedImage = await applyEraStamp(resultImage, selectedEra, false);
         setGeneratedImage(stampedImage);
+        
         setCurrentScreen(AppScreen.RESULT);
         return; // Success! Exit the function
       } catch (error) {
@@ -106,6 +109,7 @@ const App: React.FC = () => {
           selectedEra && generatedImage ? (
             <ResultScreen
               imageSrc={generatedImage}
+              rawImage={rawGeneratedImage || ''}
               prompt={generatedPrompt}
               era={selectedEra}
               faceData={faceDetectionResult}

@@ -5,7 +5,7 @@ import { EraData } from '../types';
  * Uses a single unified frame from public/Frames/Frame.png
  * Final output is 1200x1800 (2:3 aspect ratio)
  */
-export const applyEraStamp = (imageSrc: string, era: EraData): Promise<string> => {
+export const applyEraStamp = (imageSrc: string, era: EraData, forPrinting: boolean = true): Promise<string> => {
     return new Promise((resolve) => {
         let assetsLoaded = 0;
         const totalAssets = 2; // Main Image + Frame Overlay
@@ -51,32 +51,44 @@ export const applyEraStamp = (imageSrc: string, era: EraData): Promise<string> =
             canvas.width = 1200;
             canvas.height = 1800;
 
-            // 1. Draw Main Image - Fill the canvas
-            // AI generated image is 2:3, so it should fit perfectly.
-            // We'll use "cover" logic just in case.
+            // SELPHY Strategy: 
+            // - Top Margin: 90px (Increase to clear printer crop @ top)
+            // - Bottom Margin: 40px (Confirmed for SELPHY alignment)
+            const topMargin = forPrinting ? 70 : 0;
+            const bottomMargin = forPrinting ? 40 : 0;
+            const safeH = 1800 - topMargin - bottomMargin;
+
+            // 0. Fill Background with Black (Margins)
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Main Image - Compressed into safe area
             const imgAspect = mainImage.width / mainImage.height;
-            const canvasAspect = canvas.width / canvas.height;
+            const targetAspect = canvas.width / safeH;
 
             let drawWidth, drawHeight, offsetX, offsetY;
-            if (imgAspect > canvasAspect) {
-                // Image is wider than canvas
-                drawHeight = canvas.height;
-                drawWidth = canvas.height * imgAspect;
+            if (imgAspect > targetAspect) {
+                drawHeight = safeH;
+                drawWidth = safeH * imgAspect;
                 offsetX = -(drawWidth - canvas.width) / 2;
-                offsetY = 0;
+                offsetY = topMargin;
             } else {
-                // Image is taller than canvas
                 drawWidth = canvas.width;
                 drawHeight = canvas.width / imgAspect;
                 offsetX = 0;
-                offsetY = -(drawHeight - canvas.height) / 2;
+                offsetY = topMargin - (drawHeight - safeH) / 2;
             }
 
+            // Clip drawing to safe area
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, topMargin, canvas.width, safeH);
+            ctx.clip();
             ctx.drawImage(mainImage, offsetX, offsetY, drawWidth, drawHeight);
+            ctx.restore();
 
-            // 2. Draw Frame - Over everything
-            // The Frame.png should be 1200x1800 with transparency for the photo area
-            ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
+            // 2. Draw Frame - Over safe area
+            ctx.drawImage(frameImg, 0, topMargin, canvas.width, safeH);
 
             // 3. Draw Randomized Tagline - Above the banner line
             const taglines = [
@@ -91,10 +103,14 @@ export const applyEraStamp = (imageSrc: string, era: EraData): Promise<string> =
             ctx.textAlign = 'left';
             ctx.textBaseline = 'bottom';
 
-            // Coordinates based on 1200x1800 canvas with bottom banner
-            // We align it to the left side of the banner above the horizontal line
+            // Coordinates based on the safe area
             const textX = 77;
-            const textY = 1570; // Slightly above the line (estimated line position)
+            // The banner is in the frame, which is now at y=topMargin.
+            // Original Y was 1570 (relative to 1800).
+            // Relative to 0 in frame, it's 1570 / 1800 * 1800 = 1570... 
+            // Wait, if frameImg is stretched to safeH, we scale the Y coordinate.
+            const scaleY = safeH / 1800;
+            const textY = topMargin + (1570 * scaleY);
 
             ctx.fillText(text, textX, textY);
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { EraData, FaceDetectionResult } from '../types';
 import { Download, RotateCcw, Share2, QrCode, Loader2, Printer, CheckCircle2, XCircle } from 'lucide-react';
+import { applyEraStamp } from '../services/stampService';
 
 interface ResultScreenProps {
   imageSrc: string;
+  rawImage: string;
   prompt: string;
   era: EraData;
   faceData: FaceDetectionResult | null;
@@ -11,7 +13,7 @@ interface ResultScreenProps {
   onUpdateImage: (newImage: string) => void;
 }
 
-export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, era, faceData, onRestart, onUpdateImage }) => {
+export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, rawImage, prompt, era, faceData, onRestart, onUpdateImage }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [printers, setPrinters] = useState<any[]>([]);
@@ -132,9 +134,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, er
         const { ipcRenderer } = (window as any).require('electron');
         console.log('[ResultScreen] ipcRenderer obtained:', !!ipcRenderer);
 
+        // Generate the version with margins for printing
         const startTime = Date.now();
+        const printableImage = await applyEraStamp(rawImage, era, true);
+        
         console.log('[ResultScreen] Calling ipcRenderer.invoke("print-image")...');
-        const result = await ipcRenderer.invoke('print-image', { imageSrc, printerName: selectedPrinter });
+        const result = await ipcRenderer.invoke('print-image', { imageSrc: printableImage, printerName: selectedPrinter });
         console.log('[ResultScreen] print-image result:', result, 'took', Date.now() - startTime, 'ms');
 
         if (result.success) {

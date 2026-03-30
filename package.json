@@ -1,9 +1,9 @@
 {
-  "name": "egypt's-time-machine",
+  "name": "Tahrir CultureFest",
   "private": true,
-  "version": "0.0.0",
-  "author": "Egypt Time Machine",
-  "description": "Egypt Time Machine Photobooth Application",
+  "version": "0.1",
+  "author": "5DVR",
+  "description": "Tahrir CultureFest Photobooth Application",
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
@@ -36,8 +36,8 @@
     "wait-on": "^9.0.3"
   },
   "build": {
-    "appId": "com.egypt.timemachine",
-    "productName": "Egypt Time Machine",
+    "appId": "com.5dvr.tahrirculturefest",
+    "productName": "Tahrir CultureFest",
     "directories": {
       "output": "release"
     },
