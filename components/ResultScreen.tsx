@@ -258,14 +258,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, er
   };
 
   return (
-    <div className="h-full w-full relative overflow-hidden bg-black flex flex-col items-center justify-center">
-      {/* 1. Background Image */}
-      <img
-        src="./Result-Screen.jpg"
-        alt="Background"
-        className="absolute inset-0 w-full h-full object-cover z-0 blur-sm"
-      />
-      <div className="absolute inset-0 bg-black/10 z-[1]" />
+    <div className="h-full w-full relative overflow-hidden bg-[#1E1E1E] flex flex-col items-center justify-center">
+      <div className="absolute inset-0 bg-black/20 z-[1]" />
 
       {/* Printing Feedback Overlay */}
       {printStatus !== 'idle' && (
@@ -382,16 +376,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, prompt, er
         </div>
 
         {/* Main Generated Image Display */}
-        <div className="relative w-[98%] md:w-[85%] lg:w-[65%] h-[78%] flex items-center justify-center animate-scale-in">
-          <div className="absolute inset-0 bg-yellow-600/5 blur-1xl rounded-full" />
-          <div className="relative w-full h-full border border-yellow-500/10 rounded-xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)] bg-black/40">
-            <img
-              src={imageSrc}
-              alt="Generated Portrait"
-              draggable="false"
-              className="w-full h-full object-contain"
-            />
-          </div>
+        <div className="relative w-[86%] h-[80%] flex items-center justify-center animate-scale-in">
+          <img
+            src={imageSrc}
+            alt="Generated Portrait"
+            draggable="false"
+            className="w-full h-full object-contain rounded-[64px] shadow-2xl transform transition-all duration-700"
+          />
         </div>
 
         {/* Footer Actions & QR */}
