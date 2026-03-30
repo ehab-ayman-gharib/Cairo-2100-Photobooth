@@ -381,13 +381,15 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, rawImage, 
         </div>
 
         {/* Main Generated Image Display */}
-        <div className="relative w-[86%] h-[80%] flex items-center justify-center animate-scale-in">
-          <img
-            src={imageSrc}
-            alt="Generated Portrait"
-            draggable="false"
-            className="w-full h-full object-contain rounded-[64px] shadow-2xl transform transition-all duration-700"
-          />
+        <div className="relative w-[90%] h-[80%] flex items-center justify-center animate-scale-in">
+          <div className="h-full aspect-[2/3] max-w-full relative rounded-[64px] overflow-hidden shadow-2xl">
+            <img
+              src={imageSrc}
+              alt="Generated Portrait"
+              draggable="false"
+              className="w-full h-full object-cover transform transition-all duration-700"
+            />
+          </div>
         </div>
 
         {/* Footer Actions & QR */}
