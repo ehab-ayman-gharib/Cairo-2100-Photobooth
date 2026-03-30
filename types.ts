@@ -7,28 +7,36 @@ export enum AppScreen {
 }
 
 export enum EraId {
-  OLD_EGYPT = 'OLD_EGYPT',
-  COPTIC_EGYPT = 'COPTIC_EGYPT',
-  ISLAMIC_EGYPT = 'ISLAMIC_EGYPT',
-  MODERN_EGYPT = 'MODERN_EGYPT',
+  TAHRIR = 'tahrir',
+  NILE = 'nile',
+  DOWNTOWN = 'downtown',
+  TOWER = 'tower',
   SNAP_A_MEMORY = 'SNAP_A_MEMORY',
 }
 
-export interface Scenery {
-  prompt: string;
-  maleClothingIds: string[];
-  femaleClothingIds: string[];
-}
-
-export interface EraData {
+export interface LandmarkData {
   id: EraId;
   name: string;
+  nameAr: string;
   description: string;
+  video: string;
+  overlay: string;
+  promptInstructions: string;
+}
+
+export interface PropData {
+  id: string;
+  name: string;
+  nameAr: string;
+  category: string;
+  icon: string;
+  prompt: string;
+}
+
+export interface EraData extends LandmarkData {
   previewImage: string;
-  scenery: Scenery[];
   stamps: string[];
   frames: string[];
-  characters?: string[];
 }
 
 export interface FaceDetectionResult {

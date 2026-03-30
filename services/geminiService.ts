@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { EraData, FaceDetectionResult } from '../types';
-import { SHARED_PROMPT_INSTRUCTIONS, IDENTITY_PRESERVATION_GUIDE } from '../constants';
+import { PROPS, WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE } from '../constants';
 
 const getAiClient = () => {
   const apiKey = process.env.API_KEY;
@@ -48,112 +48,55 @@ export const generateHistoricalImage = async (
   const ai = getAiClient();
   const cleanBase64 = base64Image.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
 
-  // 1. Calculate Group Description
+  // 1. Calculate Detailed Subject & Gender Reflection
   let subjectDescription = "";
-  let includeCharacter = false;
+  const parts = [];
+  if (faceData.maleCount > 0) parts.push(`${faceData.maleCount} ${faceData.maleCount > 1 ? 'men' : 'man'}`);
+  if (faceData.femaleCount > 0) parts.push(`${faceData.femaleCount} ${faceData.femaleCount > 1 ? 'women' : 'woman'}`);
+  if (faceData.childCount > 0) parts.push(`${faceData.childCount} ${faceData.childCount > 1 ? 'children' : 'child'}`);
 
-  const COMPANIONS = [
-    {
-      name: "QUEEN NEFERTITI",
-      description: "the legendary Queen Nefertiti, recognizable by her iconic tall, flat-topped blue cap crown (Nemes), a vibrant and colorful jeweled Wesekh collar, and an elegant white pleated linen sheath gown. She should have her distinct regal facial features and traditional Egyptian kohl eye makeup."
-    },
-    {
-      name: "PHARAOH THUTMOSE III",
-      description: "the great warrior Pharaoh Thutmose III, wearing the iconic Blue War Crown (Khepresh) with the golden Uraeus cobra, a broad gold chest collar, and a stiff pleated royal kilt with a golden belt. He stands with a powerful and majestic presence."
-    },
-    {
-      name: "THE GODDESS ISIS",
-      description: "the divine Goddess Isis, wearing her sacred headdress featuring the sun disk nestled between cow horns and the vulture crown. She is dressed in a magnificent form-fitting sheath dress adorned with gold beads and carries a golden Ankh."
-    }
-  ];
-
-  if (faceData.totalPeople === 1) {
-    if (faceData.childCount > 0) subjectDescription = "a young child";
-    else if (faceData.maleCount >= 1) subjectDescription = "a man";
-    else if (faceData.femaleCount > 0) subjectDescription = "a woman";
-    else subjectDescription = "a person";
-
-
+  if (parts.length === 0) {
+    subjectDescription = faceData.totalPeople > 1 ? `a group of ${faceData.totalPeople} people` : "a person";
+  } else if (faceData.totalPeople === 1) {
+    subjectDescription = parts[0];
   } else {
-    const parts = [];
-    if (faceData.maleCount > 0) parts.push(`${faceData.maleCount} ${faceData.maleCount > 1 ? 'men' : 'man'}`);
-    if (faceData.femaleCount > 0) parts.push(`${faceData.femaleCount} ${faceData.femaleCount > 1 ? 'women' : 'woman'}`);
-    if (faceData.childCount > 0) parts.push(`${faceData.childCount} ${faceData.childCount > 1 ? 'children' : 'child'}`);
-
-    if (parts.length === 0) {
-      subjectDescription = `a group of ${faceData.totalPeople} people`;
-    } else {
-      subjectDescription = "a group of " + parts.join(', ').replace(/, ([^,]*)$/, ' and $1');
-    }
+    subjectDescription = "a group of " + parts.join(', ').replace(/, ([^,]*)$/, ' and $1');
   }
 
-  // 2. Select Scene and Clothing
-  let sceneIdx = 0;
-  const lastScenesKey = 'extra_last_scenes';
-  const lastScenes = JSON.parse(localStorage.getItem(lastScenesKey) || '{}');
-  const lastIdx = lastScenes[era.id];
-
-  if (era.scenery.length > 1) {
-    // Try up to 10 times to get a different scene
-    for (let i = 0; i < 10; i++) {
-      sceneIdx = Math.floor(Math.random() * era.scenery.length);
-      if (sceneIdx !== lastIdx) break;
-    }
-  } else {
-    sceneIdx = 0;
-  }
-
-  // Save selected scene to prevent repetition in next session
-  lastScenes[era.id] = sceneIdx;
-  localStorage.setItem(lastScenesKey, JSON.stringify(lastScenes));
-
-  const scene = era.scenery[sceneIdx];
-  console.log(`[Prompt Gen] Selected non-repeating scene #${sceneIdx} for era ${era.id} (last was ${lastIdx})`);
+  // 2. Select Props and Wardrobe per subject type for variety
+  const selectedProps = [...PROPS].sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 2) + 1);
+  
   const clothingParts: string[] = [];
-
   if (faceData.maleCount > 0) {
-    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} wearing ${scene.maleClothingIds[Math.floor(Math.random() * scene.maleClothingIds.length)]}`);
+    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} wearing ${WARDROBE_STYLES[Math.floor(Math.random() * WARDROBE_STYLES.length)]}`);
   }
   if (faceData.femaleCount > 0) {
-    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} wearing ${scene.femaleClothingIds[Math.floor(Math.random() * scene.femaleClothingIds.length)]}`);
+    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} wearing ${WARDROBE_STYLES[Math.floor(Math.random() * WARDROBE_STYLES.length)]}`);
   }
   if (faceData.childCount > 0) {
-    clothingParts.push(`the ${faceData.childCount > 1 ? 'children' : 'child'} wearing historically accurate ${era.name} child attire`);
+    clothingParts.push(`the ${faceData.childCount > 1 ? 'children' : 'child'} wearing cute, age-appropriate futuristic tech-wear`);
   }
-
   const clothingDescription = clothingParts.join(", ");
 
+  const propsPrompt = selectedProps.length > 0 
+    ? `The people should be ${selectedProps.map(p => p.prompt).join(' and ')}.`
+    : '';
+
   // 3. Construct Unified Prompt
-  let prompt = "";
-  if (includeCharacter) {
-    const companion = COMPANIONS[Math.floor(Math.random() * COMPANIONS.length)];
-    prompt = `
-    A magnificent cinematic duo portrait set in ${scene.prompt}. 
-    The photograph features two individuals standing side-by-side in a shared moment:
-    
-    1. THE USER: A person from the provided photo, transformed into a historical figure of ${era.name} Egypt wearing ${clothingDescription}. Their facial features and identity MUST be perfectly preserved.
-    2. THE COMPANION: ${companion.description}
-    
-    COMPOSITION:
-    They should be standing gracefully side-by-side or shoulder-to-shoulder, integrated into the same physical space with cohesive lighting and shadows. This should look like a professional, high-quality historical photograph.
-    Absolutely no modern technology, cameras, or mobile phones.
-    
-    ${IDENTITY_PRESERVATION_GUIDE}
-    `;
-  } else {
-    // Normal Group Photo or No Character
-    prompt = `
-    ${SHARED_PROMPT_INSTRUCTIONS}
-    
-    INPUT: A photo of ${subjectDescription}.
-    TASK: Place them into ${scene.prompt} during the ${era.name} era.
-    CLOTHING: ${clothingDescription}. 
-    
-    STYLE: Professional cinematic photography, 9:16 portrait.
-    
-    ${IDENTITY_PRESERVATION_GUIDE}
-    `;
-  }
+  const prompt = `Reimagine ${subjectDescription} in a futuristic version of ${era.name} in Cairo in the year 2100. 
+  ${propsPrompt}
+  CLOTHING: ${clothingDescription}.
+  The scene should be cinematic, high-tech, and detailed. 
+  CRITICAL: The iconic architecture and landmarks of Cairo MUST be clearly recognizable and accurately depicted. 
+  ${era.promptInstructions}
+  Include elements like: ${era.description}. 
+  Maintain the person's pose and likeness. 
+  The style should be a mix of cyberpunk and solarpunk (vibrant neon mixed with lush greenery). 
+  Use a color palette inspired by deep navy and vibrant pink (magenta).
+  Add holographic AR overlays in the background like digital grids and energy symbols.
+  Incorporate "FUTURE CAIRO" and "AUC Tahrir 2026 CultureFest" as subtle holographic branding elements within the environment.
+  
+  ${IDENTITY_PRESERVATION_GUIDE}`;
 
   console.log("------------------- GENERATED PROMPT -------------------");
   console.log(prompt);
@@ -172,12 +115,10 @@ export const generateHistoricalImage = async (
     temperature: 0.5,
     // @ts-ignore
     imageConfig: {
-      aspectRatio: "9:16"
+      aspectRatio: "2:3"
     },
     safetySettings: safetySettings
   };
-
-  console.log("Gemini Request Config:", JSON.stringify(requestConfig, null, 2));
 
   try {
     // 4. Send to Gemini
@@ -204,7 +145,6 @@ export const generateHistoricalImage = async (
     if (candidate) {
       if (candidate.finishReason !== 'STOP') {
         console.warn('Gemini Generation Warning: Finish Reason:', candidate.finishReason);
-        console.warn('Safety Ratings:', JSON.stringify(candidate.safetyRatings, null, 2));
       }
 
       for (const part of candidate.content?.parts || []) {
