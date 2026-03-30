@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { RefreshCw, AlertCircle, ChevronLeft, Upload } from 'lucide-react';
+import { PortalCountdown } from './PortalCountdown';
 import { loadFaceApiModels, detectFaces } from '../services/faceService';
 import { EraData, FaceDetectionResult, EraId } from '../types';
 
@@ -266,22 +267,20 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ era, onCapture, on
         </div>
       )}
 
-      {/* Countdown Overlay - Using Custom Container */}
-      {countdown !== null && countdown > 0 && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 pointer-events-none">
-          <div className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center animate-pulse-slow">
-            {/* Background Container Image */}
-            <img
-              src="./Countdown_Container.png"
-              alt=""
-              className="absolute inset-0 w-full h-full object-contain"
-            />
+      {/* ── Lalezar font ─────────────────────────────── */}
+      <style>{`
+        @font-face {
+          font-family: 'Lalezar';
+          src: url('/Lalezar-Regular.ttf') format('truetype');
+          font-weight: normal;
+          font-style: normal;
+        }
+      `}</style>
 
-            {/* Countdown Text with Custom Font */}
-            <span className="relative z-10 text-7xl md:text-[9rem] font-bold text-white countdown-font drop-shadow-[0_0_20px_rgba(234,179,8,0.4)]">
-              {countdown}
-            </span>
-          </div>
+      {/* Countdown Overlay - Portal Three.js Ring */}
+      {countdown !== null && countdown > 0 && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/10 pointer-events-none">
+          <PortalCountdown count={countdown} />
         </div>
       )}
 

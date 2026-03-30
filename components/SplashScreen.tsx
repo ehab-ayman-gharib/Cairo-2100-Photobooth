@@ -72,37 +72,53 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    // --- Magical Particles ---
+    // --- Futuristic Particles ---
     const particlesGeo = new THREE.BufferGeometry();
-    const particleCount = 400; // Increased count for better look
+    const particleCount = 800; 
     const posArray = new Float32Array(particleCount * 3);
+    const colorArray = new Float32Array(particleCount * 3);
 
-    for (let i = 0; i < particleCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 30;
+    const futuristicColors = [
+      new THREE.Color(0x00ffff), // Cyan
+      new THREE.Color(0xff00ff), // Magenta
+      new THREE.Color(0x60a5fa)  // Bright Blue
+    ];
+
+    for (let i = 0; i < particleCount; i++) {
+      posArray[i * 3] = (Math.random() - 0.5) * 40;
+      posArray[i * 3 + 1] = (Math.random() - 0.5) * 40;
+      posArray[i * 3 + 2] = (Math.random() - 0.5) * 40;
+
+      const color = futuristicColors[Math.floor(Math.random() * futuristicColors.length)];
+      colorArray[i * 3] = color.r;
+      colorArray[i * 3 + 1] = color.g;
+      colorArray[i * 3 + 2] = color.b;
     }
     particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
 
-    // Create texture for glow
+    // Create texture for glow (sharper, more digital)
     const canvas = document.createElement('canvas');
-    canvas.width = 32; canvas.height = 32;
+    canvas.width = 64; canvas.height = 64;
     const ctx = canvas.getContext('2d');
     if (ctx) {
-      const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      grad.addColorStop(0, 'rgba(255, 215, 0, 1)');
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)'); 
+      grad.addColorStop(0.2, 'rgba(0, 255, 255, 0.8)');
       grad.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 32, 32);
+      ctx.fillRect(0, 0, 64, 64);
     }
     const particleTexture = new THREE.Texture(canvas);
     particleTexture.needsUpdate = true;
 
     const particlesMat = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.12,
       map: particleTexture,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      color: 0xffd700
+      vertexColors: true
     });
 
     const particleSystem = new THREE.Points(particlesGeo, particlesMat);
