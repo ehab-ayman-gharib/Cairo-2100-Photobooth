@@ -78,6 +78,26 @@ export const applyEraStamp = (imageSrc: string, era: EraData): Promise<string> =
             // The Frame.png should be 1200x1800 with transparency for the photo area
             ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
 
+            // 3. Draw Randomized Tagline - Above the banner line
+            const taglines = [
+                "From Papyrus to Pixels",
+                "The future is old soul, new energy",
+                "Reality, but better. Cairo 2100"
+            ];
+            const text = taglines[Math.floor(Math.random() * taglines.length)].toUpperCase();
+
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 32px "Lalezar", sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'bottom';
+
+            // Coordinates based on 1200x1800 canvas with bottom banner
+            // We align it to the left side of the banner above the horizontal line
+            const textX = 77;
+            const textY = 1570; // Slightly above the line (estimated line position)
+
+            ctx.fillText(text, textX, textY);
+
             resolve(canvas.toDataURL('image/jpeg', 0.95));
         };
     });
