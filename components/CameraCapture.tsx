@@ -119,71 +119,26 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ era, onCapture, on
       if (!canvasRef.current) return;
       const canvas = canvasRef.current;
 
-      // Only apply 9:16 cropping for Snap a Memory mode
-      // For AI modes, keep original aspect ratio (Gemini will output 9:16 anyway)
-      const shouldCropTo916 = era?.id === EraId.SNAP_A_MEMORY;
+      // For AI modes: Keep original aspect ratio, but limit size
+      const MAX_DIMENSION = 1500;
+      let width = img.width;
+      let height = img.height;
 
-      if (shouldCropTo916) {
-        // Force 9:16 aspect ratio for Snap a Memory mode
-        const targetAspectRatio = 9 / 16; // Portrait (width/height)
-        const imgAspectRatio = img.width / img.height;
+      if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+        const ratio = Math.min(MAX_DIMENSION / width, MAX_DIMENSION / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
 
-        let sourceX = 0;
-        let sourceY = 0;
-        let sourceWidth = img.width;
-        let sourceHeight = img.height;
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
 
-        // Crop to 9:16 if needed
-        if (imgAspectRatio > targetAspectRatio) {
-          // Image is wider than 9:16, crop the sides
-          sourceWidth = img.height * targetAspectRatio;
-          sourceX = (img.width - sourceWidth) / 2;
-        } else if (imgAspectRatio < targetAspectRatio) {
-          // Image is taller than 9:16, crop top/bottom
-          sourceHeight = img.width / targetAspectRatio;
-          sourceY = (img.height - sourceHeight) / 2;
-        }
-
-        // Set canvas to 9:16 aspect ratio (1080x1920)
-        const canvasWidth = 1080;
-        const canvasHeight = 1920;
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-          // Draw the cropped image to canvas at 9:16 ratio
-          ctx.drawImage(
-            img,
-            sourceX, sourceY, sourceWidth, sourceHeight,  // Source crop
-            0, 0, canvasWidth, canvasHeight               // Destination
-          );
-          const imageData = canvas.toDataURL('image/jpeg', 0.9);
-          const faceData = await detectFaces(img, modelsLoaded);
-          onCapture(imageData, faceData);
-        }
-      } else {
-        // For AI modes: Keep original aspect ratio, but limit size
-        const MAX_DIMENSION = 1500;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
-          const ratio = Math.min(MAX_DIMENSION / width, MAX_DIMENSION / height);
-          width = Math.round(width * ratio);
-          height = Math.round(height * ratio);
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-          ctx.drawImage(img, 0, 0, width, height);
-          const imageData = canvas.toDataURL('image/jpeg', 0.9);
-          const faceData = await detectFaces(img, modelsLoaded);
-          onCapture(imageData, faceData);
-        }
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, width, height);
+        const imageData = canvas.toDataURL('image/jpeg', 0.9);
+        const faceData = await detectFaces(img, modelsLoaded);
+        onCapture(imageData, faceData);
       }
       setIsDetecting(false);
       if (event.target) event.target.value = ''; // Reset input

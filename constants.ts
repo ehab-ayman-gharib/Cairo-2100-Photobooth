@@ -70,19 +70,5 @@ export const ERAS: EraData[] = [
     stamps: [],
     frames: [],
     promptInstructions: 'Include the iconic Cairo Tower (lotus shape) as a central beacon of light, overlooking a high-tech city with the Nile river visible below.'
-  },
-  {
-    id: EraId.SNAP_A_MEMORY,
-    name: "Snap a Memory",
-    nameAr: "التقاط ذكرى",
-    description: "Capture a beautiful portrait with an Egyptian frame.",
-    video: '',
-    overlay: '',
-    promptInstructions: '',
-    previewImage: "./Snap-A-Memory.png",
-    stamps: [],
-    frames: [
-      "./Frames/Modern-Egypt/1.png"
-    ]
   }
 ];

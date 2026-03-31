@@ -11,7 +11,6 @@ export enum EraId {
   NILE = 'nile',
   DOWNTOWN = 'downtown',
   TOWER = 'tower',
-  SNAP_A_MEMORY = 'SNAP_A_MEMORY',
 }
 
 export interface LandmarkData {

@@ -43,18 +43,10 @@ const App: React.FC = () => {
 
         let resultImage: string;
 
-        if (selectedEra.id === EraId.SNAP_A_MEMORY) {
-          // "Snap a Memory" mode: Skip AI generation, just use the original photo
-          resultImage = imageSrc;
-          setGeneratedPrompt('Snap a Memory (No AI Prompt)');
-          // Small artificial delay for consistent UX
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        } else {
-          // Historical eras: Run Gemini AI transformation
-          const result = await generateHistoricalImage(imageSrc, selectedEra, faceData);
-          resultImage = result.image;
-          setGeneratedPrompt(result.prompt);
-        }
+        // Perform AI generation for all eras
+        const result = await generateHistoricalImage(imageSrc, selectedEra, faceData);
+        resultImage = result.image;
+        setGeneratedPrompt(result.prompt);
 
         setRawGeneratedImage(resultImage);
 
