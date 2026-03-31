@@ -40,10 +40,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
 
     setIsExiting(true);
     isExitingRef.current = true;
-    
+
     // Select random era
     const randomEra = ERAS[Math.floor(Math.random() * ERAS.length)];
-    
+
     setTimeout(() => {
       onSelectEra(randomEra);
     }, 1800);
@@ -74,7 +74,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
 
     // --- Futuristic Particles ---
     const particlesGeo = new THREE.BufferGeometry();
-    const particleCount = 800; 
+    const particleCount = 800;
     const posArray = new Float32Array(particleCount * 3);
     const colorArray = new Float32Array(particleCount * 3);
 
@@ -103,7 +103,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
     const ctx = canvas.getContext('2d');
     if (ctx) {
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)'); 
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
       grad.addColorStop(0.2, 'rgba(0, 255, 255, 0.8)');
       grad.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = grad;
@@ -187,7 +187,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
           playsInline
           onEnded={handleVideoEnded}
           className="w-full h-full object-cover"
-          src="./isis_test.mp4"
+          src="./Intro.mp4"
         />
       </div>
 

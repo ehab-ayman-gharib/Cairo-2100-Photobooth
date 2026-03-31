@@ -2,9 +2,16 @@ import { EraData } from '../types';
 
 /**
  * Applies a branding frame to the generated image.
- * Uses a single unified frame from public/Frames/Frame.png
+ * Randomizes between multiple frames in public/Frames
  * Final output is 1200x1800 (2:3 aspect ratio)
  */
+
+let lastFrameIndex = -1;
+const AVAILABLE_FRAMES = [
+    './Frames/Frame_0.png',
+    './Frames/Frame_1.png',
+    './Frames/Frame_2.png'
+];
 export const applyEraStamp = (imageSrc: string, era: EraData, forPrinting: boolean = true): Promise<string> => {
     return new Promise((resolve) => {
         let assetsLoaded = 0;
@@ -36,7 +43,19 @@ export const applyEraStamp = (imageSrc: string, era: EraData, forPrinting: boole
         };
 
         const mainImage = createSafeImage(imageSrc, true);
-        const frameImg = createSafeImage('./Frames/Frame.png', true);
+        
+        // Randomize frame without consecutive repeats
+        let frameIndex;
+        if (AVAILABLE_FRAMES.length > 1) {
+            do {
+                frameIndex = Math.floor(Math.random() * AVAILABLE_FRAMES.length);
+            } while (frameIndex === lastFrameIndex);
+        } else {
+            frameIndex = 0;
+        }
+        lastFrameIndex = frameIndex;
+        
+        const frameImg = createSafeImage(AVAILABLE_FRAMES[frameIndex], true);
 
         const processComposition = () => {
             const canvas = document.createElement('canvas');
@@ -89,30 +108,6 @@ export const applyEraStamp = (imageSrc: string, era: EraData, forPrinting: boole
 
             // 2. Draw Frame - Over safe area
             ctx.drawImage(frameImg, 0, topMargin, canvas.width, safeH);
-
-            // 3. Draw Randomized Tagline - Above the banner line
-            const taglines = [
-                "From Papyrus to Pixels",
-                "The future is old soul, new energy",
-                "Reality, but better. Cairo 2100"
-            ];
-            const text = taglines[Math.floor(Math.random() * taglines.length)].toUpperCase();
-
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 32px "Lalezar", sans-serif';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'bottom';
-
-            // Coordinates based on the safe area
-            const textX = 77;
-            // The banner is in the frame, which is now at y=topMargin.
-            // Original Y was 1570 (relative to 1800).
-            // Relative to 0 in frame, it's 1570 / 1800 * 1800 = 1570... 
-            // Wait, if frameImg is stretched to safeH, we scale the Y coordinate.
-            const scaleY = safeH / 1800;
-            const textY = topMargin + (1570 * scaleY);
-
-            ctx.fillText(text, textX, textY);
 
             resolve(canvas.toDataURL('image/jpeg', 0.95));
         };
