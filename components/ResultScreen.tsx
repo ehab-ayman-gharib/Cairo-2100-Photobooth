@@ -137,7 +137,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, rawImage, 
         // Generate the version with margins for printing
         const startTime = Date.now();
         const printableImage = await applyEraStamp(rawImage, era, true);
-        
+
         console.log('[ResultScreen] Calling ipcRenderer.invoke("print-image")...');
         const result = await ipcRenderer.invoke('print-image', { imageSrc: printableImage, printerName: selectedPrinter });
         console.log('[ResultScreen] print-image result:', result, 'took', Date.now() - startTime, 'ms');
@@ -381,8 +381,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, rawImage, 
         </div>
 
         {/* Main Generated Image Display */}
-        <div className="relative w-[90%] h-[80%] flex items-center justify-center animate-scale-in">
-          <div className="h-full aspect-[2/3] max-w-full relative rounded-[64px] overflow-hidden shadow-2xl">
+        <div className="relative w-[80%] h-[70%] flex items-center justify-center animate-scale-in">
+          <div className="h-full aspect-[2/3] max-w-full relative rounded-[48px] overflow-hidden shadow-2xl">
             <img
               src={imageSrc}
               alt="Generated Portrait"
@@ -394,52 +394,52 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ imageSrc, rawImage, 
 
         {/* Footer Actions & QR */}
         <div className="w-full flex justify-center pb-2">
-          <div className="flex items-end justify-center gap-8 w-full max-w-4xl px-4">
+          <div className="flex items-end justify-center gap-12 w-full max-w-5xl px-4">
 
             {/* Download/Share Actions */}
-            <div className="flex flex-col gap-3 animate-slide-in-bottom" style={{ animationDelay: '0.4s' }}>
-              <div className="flex gap-3">
+            <div className="flex flex-col gap-4 animate-slide-in-bottom" style={{ animationDelay: '0.4s' }}>
+              <div className="flex gap-4">
                 <button
                   onClick={handleDownload}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-yellow-600 hover:bg-yellow-500 text-black font-bold rounded-xl transition-all shadow-lg active:scale-95 group"
+                  className="flex items-center gap-3 px-8 py-4 bg-yellow-600 hover:bg-yellow-500 text-black font-extrabold rounded-2xl transition-all shadow-[0_10px_20px_rgba(0,0,0,0.3)] active:scale-95 group border-b-4 border-yellow-700 active:border-b-0"
                 >
-                  <Download size={18} className="group-hover:animate-bounce" />
-                  <span className="text-xs uppercase tracking-wider">Download</span>
+                  <Download size={22} className="group-hover:animate-bounce" />
+                  <span className="text-sm uppercase tracking-wider">Download</span>
                 </button>
 
                 <button
                   onClick={handlePrint}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg active:scale-95 group"
+                  className="flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold rounded-2xl transition-all shadow-[0_10px_20px_rgba(0,0,0,0.3)] active:scale-95 group border-b-4 border-indigo-700 active:border-b-0"
                 >
-                  <Printer size={18} className="group-hover:rotate-12 transition-transform" />
-                  <span className="text-xs uppercase tracking-wider">Print Photo</span>
+                  <Printer size={22} className="group-hover:rotate-12 transition-transform" />
+                  <span className="text-sm uppercase tracking-wider">Print Photo</span>
                 </button>
               </div>
 
               <button
                 onClick={onRestart}
-                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 transition-all active:scale-95"
+                className="flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-extrabold rounded-2xl hover:bg-white/20 transition-all active:scale-95 shadow-xl"
               >
-                <RotateCcw size={16} />
-                <span className="text-xs uppercase tracking-wider">New Adventure</span>
+                <RotateCcw size={20} />
+                <span className="text-sm uppercase tracking-wider">New Adventure</span>
               </button>
             </div>
 
             {/* QR Code Section */}
-            <div className="flex flex-col items-center gap-2 animate-slide-in-bottom" style={{ animationDelay: '0.6s' }}>
-              <div className="w-24 h-24 bg-white rounded-xl shadow-2xl p-1.5 relative group flex items-center justify-center border-2 border-yellow-600/50">
+            <div className="flex flex-col items-center gap-3 animate-slide-in-bottom" style={{ animationDelay: '0.6s' }}>
+              <div className="w-32 h-32 bg-white rounded-2xl shadow-2xl p-2 relative group flex items-center justify-center border-2 border-yellow-600/50">
                 {isUploading ? (
-                  <div className="flex flex-col items-center gap-1">
-                    <Loader2 className="animate-spin text-yellow-600" size={24} />
-                    <span className="text-[8px] text-slate-600 font-bold uppercase">Uploading</span>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <Loader2 className="animate-spin text-yellow-600" size={32} />
+                    <span className="text-[10px] text-slate-600 font-bold uppercase">Uploading</span>
                   </div>
                 ) : qrCodeUrl ? (
                   <img src={qrCodeUrl} alt="QR Code" draggable="false" className="w-full h-full object-contain" />
                 ) : (
-                  <QrCode className="text-slate-400 opacity-20" size={32} />
+                  <QrCode className="text-slate-400 opacity-20" size={48} />
                 )}
               </div>
-              <span className="text-[9px] text-yellow-500 font-black tracking-widest uppercase bg-black/50 px-2 py-0.5 rounded-full backdrop-blur-md text-center block">Scan to Share</span>
+              <span className="text-[11px] text-yellow-500 font-black tracking-widest uppercase bg-black/50 px-3 py-1 rounded-full backdrop-blur-md text-center block shadow-lg border border-yellow-500/20">Scan to Share</span>
             </div>
 
           </div>
