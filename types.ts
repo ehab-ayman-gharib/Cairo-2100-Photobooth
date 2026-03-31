@@ -13,13 +13,11 @@ export enum EraId {
   TOWER = 'tower',
 }
 
-export interface LandmarkData {
+export interface EraData {
   id: EraId;
   name: string;
   nameAr: string;
   description: string;
-  video: string;
-  overlay: string;
   promptInstructions: string;
 }
 
@@ -30,12 +28,6 @@ export interface PropData {
   category: string;
   icon: string;
   prompt: string;
-}
-
-export interface EraData extends LandmarkData {
-  previewImage: string;
-  stamps: string[];
-  frames: string[];
 }
 
 export interface FaceDetectionResult {
