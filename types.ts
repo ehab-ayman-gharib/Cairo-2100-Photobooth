@@ -11,6 +11,7 @@ export enum EraId {
   NILE = 'nile',
   DOWNTOWN = 'downtown',
   TOWER = 'tower',
+  KHAN = 'khan',
 }
 
 export interface EraData {

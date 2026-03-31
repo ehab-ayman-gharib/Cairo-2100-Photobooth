@@ -83,19 +83,26 @@ export const generateHistoricalImage = async (
     : '';
 
   // 3. Construct Unified Prompt
-  const prompt = `Reimagine ${subjectDescription} in a futuristic version of ${era.name} in Cairo in the year 2100. 
-  ${propsPrompt}
-  CLOTHING: ${clothingDescription}.
-  The scene should be cinematic, high-tech, and detailed. 
-  CRITICAL: The iconic architecture and landmarks of Cairo MUST be clearly recognizable and accurately depicted. 
-  ${era.promptInstructions}
-  Include elements like: ${era.description}. 
-  Maintain the person's pose and likeness. 
-  The style should be a mix of cyberpunk and solarpunk (vibrant neon mixed with lush greenery). 
-  Use a color palette inspired by deep navy and vibrant pink (magenta).
-  Add holographic AR overlays in the background like digital grids and energy symbols.
-  Incorporate "FUTURE CAIRO" and "AUC Tahrir 2026 CultureFest" as subtle holographic branding elements within the environment.
+  const prompt = `Reimagine ${subjectDescription} in an unmistakably Egyptian futuristic version of ${era.name}, Cairo, in the year 2100.
   
+  CRITICAL ARCHITECTURE: The historical silhouettes, limestone textures, and ornate architectural details of ${era.name} MUST be the dominant focal point. ${era.promptInstructions}.
+  
+  STYLE & ATMOSPHERE: 
+  - A fusion of "Ancient Soul" and "New Energy". 
+  - Avoid generic cyberpunk. Instead, use a "Neo-Egyptian" aesthetic: historical stone and wood textures merged with high-tech glass and bioluminescence.
+  - COLOR PALETTE: Warm ochre stone, desert gold, and deep sunset oranges, accented with cool bioluminescent cyan light ribbons.
+  - LIGHTING: Set during "Maghrib" (golden hour sunset) for a warm, dramatic, and atmospheric feel.
+
+  SUBJECT DETAILS:
+  - ${propsPrompt}
+  - CLOTHING: ${clothingDescription}.
+  - Maintain the person's pose, likeness, and facial features.
+  
+  ENVIRONMENT:
+  - ${era.description}. 
+  - Incorporate "FUTURE CAIRO" and "AUC Tahrir 2026 CultureFest" as subtle holographic branding elements within the environment.
+  - Add holographic AR overlays like Arabic calligraphy and geometric patterns rather than generic digital grids.
+
   ${IDENTITY_PRESERVATION_GUIDE}`;
 
   console.log("------------------- GENERATED PROMPT -------------------");

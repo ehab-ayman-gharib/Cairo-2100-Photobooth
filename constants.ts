@@ -1,54 +1,92 @@
 import { EraData, EraId, PropData } from './types';
 
+/**
+ * IDENTITY_PRESERVATION_GUIDE:
+ * These instructions ensure Gemini 3 Flash Image maintains the user's likeness 
+ * while accurately rendering the complex textures of Egyptian heritage materials.
+ */
 export const IDENTITY_PRESERVATION_GUIDE = `REQUIREMENTS:
-- KEEP the original faces and identity visible and recognizable. Do NOT alter features.
-- Change clothing, hair, and accessories to be high-tech and futuristic.
-- Photorealistic, high quality, 9:16 portrait.
-- Lighting must be cinematic, volumetric, and natural, casting realistic shadows on the clothing layers.`;
+- CRITICAL: Maintain exact facial features, bone structure, and skin tone. No facial morphing.
+- Wardrobe: Replace current clothing with high-end Neo-Egyptian fashion using heavy-weight Egyptian linen, structured silk, and matte metallic accents.
+- Style: Hyper-realistic commercial photography, 8k resolution, shot on 35mm lens, f/1.8 for slight background bokeh.
+- Lighting: Volumetric "Golden Hour" sunlight mixed with localized neon glows; ensure light wraps realistically around the subject's silhouette.`;
 
+/**
+ * PROPS:
+ * These use "Visual Anchors" like 'brushed gold' and 'liquid plasma' 
+ * to leverage Gemini's sensitivity to materiality.
+ */
 export const PROPS: PropData[] = [
-  { id: 'drone', name: 'Pet Drone', nameAr: 'طائرة مرافقة', category: 'Companion', icon: '🛸', prompt: 'with a small personal flying drone hovering near their shoulder' },
-  { id: 'energy', name: 'Ankh Core', nameAr: 'قلب الحياة', category: 'Handheld', icon: '⚡', prompt: 'holding a glowing blue energy core shaped like an ancient Ankh' },
-  { id: 'aura', name: 'Neural Aura', nameAr: 'هالة عصبية', category: 'Atmosphere', icon: '✨', prompt: 'surrounded by a subtle glowing pink and blue neural energy aura' },
-  { id: 'wings', name: 'Digital Wings', nameAr: 'أجنحة رقمية', category: 'Back', icon: '🦋', prompt: 'with ethereal holographic digital wings made of light behind them' },
-  { id: 'orbs', name: 'Floating Orbs', nameAr: 'كرات طافية', category: 'Atmosphere', icon: '🔮', prompt: 'with several small glowing holographic data orbs floating around them' },
+  {
+    id: 'drone',
+    name: 'Pet Drone',
+    nameAr: 'طائرة مرافقة',
+    category: 'Companion',
+    icon: '🛸',
+    prompt: 'A sleek, silent hovering drone at shoulder level, crafted from brushed sand-blasted gold with glowing turquoise circuitry, inspired by a stylized scarab silhouette.'
+  },
+  {
+    id: 'energy',
+    name: 'Ankh Core',
+    nameAr: 'قلب الحياة',
+    category: 'Handheld',
+    icon: '⚡',
+    prompt: 'The subject holds a translucent glass Ankh pulsing with a core of liquid blue plasma, casting a cool ambient glow onto their face and chest.'
+  },
 ];
 
+/**
+ * WARDROBE_STYLES:
+ * Shifted away from Asian tech-wear toward "Smart-Heritage" 
+ * utilizing Egyptian cotton, linen, and traditional embroidery.
+ */
 export const WARDROBE_STYLES = [
-  "sleek tech-wear with glowing fiber-optic patterns",
-  "flowing neo-traditional Egyptian robes with metallic accents",
-  "structured solar-powered armor with iridescent surfaces",
-  "elegant high-fashion futuristic suit with holographic lapels",
-  "cyber-streetwear with oversized glowing accessories"
+  "A structured, heavy-linen Galabeya in desert-sand color, featuring geometric 'Suna' patterns embroidered with glowing copper-wire thread along the hem and high collar.",
+  "A neo-traditional silk Kaftan in deep indigo, layered with a flexible carbon-fiber vest and glowing amber-beaded trim along the sleeves.",
+  "A sharp-cut linen blazer with 'Mashrabiya' laser-cut patterns on the lapels, revealing a shimmering holographic under-layer.",
+  "A modern draped Abaya made of smart-fabric that shimmers like liquid silver, featuring bioluminescent gold hieroglyphs flowing slowly across the fabric surface.",
+  "High-tech Cairene ceremonial attire: a stiff linen tunic with an integrated glowing pectoral plate made of polished turquoise and weathered copper."
 ];
 
+/**
+ * ERAS:
+ * Expanded landmark prompts with specific architectural depth 
+ * and localized Cairene lighting environments.
+ */
 export const ERAS: EraData[] = [
-  { 
-    id: EraId.TAHRIR, 
-    name: 'Tahrir Square', 
+  {
+    id: EraId.KHAN,
+    name: 'Khan el-Khalili',
+    nameAr: 'خان الخليلي',
+    description: 'A labyrinth of light and history.',
+    promptInstructions: 'Deep perspective shot of a narrow Khan el-Khalili alley. The limestone walls are weathered and ancient. Thousands of floating, bioluminescent copper lanterns create a "sea of stars" overhead. Warm amber light bounces off damp cobblestones and intricate wooden Mashrabiya windows. The air is thick with a golden, dusty haze.'
+  },
+  {
+    id: EraId.TAHRIR,
+    name: 'Tahrir Square',
     nameAr: 'ميدان التحرير',
-    description: 'The heart of Cairo featuring the historic AUC Palace and the iconic red Egyptian Museum, reimagined with holographic displays.',
-    promptInstructions: 'Specifically, include the historic AUC Tahrir Square Main Building (the Palace) AND the iconic red Egyptian Museum building. Both should be enhanced with futuristic elements like glowing holographic banners and vertical greenery.'
+    description: 'The pulse of Neo-Cairo.',
+    promptInstructions: 'A grand cinematic view of Tahrir Square at dusk. The central Obelisk is a skyscraper-sized pillar of light. The surrounding circular roads are ribbons of glowing neon purple and blue. The red facade of the Egyptian Museum is illuminated by massive floating holographic projections of Tutankhamun’s mask.'
   },
-  { 
-    id: EraId.NILE, 
-    name: 'The Nile & Qasr al-Nil', 
+  {
+    id: EraId.NILE,
+    name: 'The Nile & Qasr al-Nil',
     nameAr: 'النيل وقصر النيل',
-    description: 'The iconic Qasr al-Nil Bridge with its famous bronze lions and futuristic feluccas with solar sails on a glowing Nile.',
-    promptInstructions: 'The person should be near the Qasr al-Nil Bridge. Include the iconic bronze LION statues at the bridge entrance, enhanced with glowing cybernetic details. Show futuristic felucca boats with solar sails on the bioluminescent Nile river.'
+    description: 'Where the river meets the grid.',
+    promptInstructions: 'Standing on the Qasr al-Nil bridge. The heavy black steel rivets are traced with glowing teal LED lines. The iconic bronze lions have subtle amber ocular sensors. The Nile river below flows like dark liquid mercury, reflecting a massive holographic moon and the neon skyline of the Cairo Tower.'
   },
-  { 
-    id: EraId.DOWNTOWN, 
-    name: 'Downtown & Statues', 
-    nameAr: 'وسط البلد والتماثيل',
-    description: 'Cyberpunk streets featuring the Talaat Harb statue and the Nahdet Misr monument, enhanced with digital energy.',
-    promptInstructions: 'Include the iconic Talaat Harb statue in the center of a futuristic downtown square. Also incorporate the Nahdet Misr (Egypt\'s Renaissance) statue by Mahmoud Mokhtar in the background, enhanced with holographic energy flows.'
+  {
+    id: EraId.DOWNTOWN,
+    name: 'Downtown (Khedivial Cairo)',
+    nameAr: 'وسط البلد الخديوية',
+    description: 'Belle Époque architecture reimagined.',
+    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and floating Arabic calligraphy neon signs. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is high-contrast, moody, and sophisticated.'
   },
-  { 
-    id: EraId.TOWER, 
-    name: 'Cairo Tower', 
+  {
+    id: EraId.TOWER,
+    name: 'Cairo Tower',
     nameAr: 'برج القاهرة',
-    description: 'The iconic lotus tower, now a beacon of clean energy overlooking a high-tech Cairo skyline.',
-    promptInstructions: 'Include the iconic Cairo Tower (lotus shape) as a central beacon of light, overlooking a high-tech city with the Nile river visible below.'
+    description: 'The Lotus of the Future.',
+    promptInstructions: 'A vertical composition looking up at the Cairo Tower. The concrete lotus mesh is filled with translucent smart-glass panels that change color. The base of the tower is surrounded by a dense solarpunk forest on Gezira Island, with glowing tropical flora and white maglev tracks winding through the palm trees.'
   }
 ];
