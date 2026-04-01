@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { EraData, FaceDetectionResult } from '../types';
-import { WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE } from '../constants';
+import { WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE, LIGHTING_STYLES } from '../constants';
 
 let lastMaleWardrobeIndex = -1;
 let lastFemaleWardrobeIndex = -1;
@@ -92,7 +92,10 @@ export const generateHistoricalImage = async (
   }
   const clothingDescription = clothingParts.join(", ");
 
-  // 3. Construct Unified Prompt
+  // 3. Select Lighting Variant
+  const randomLighting = LIGHTING_STYLES[Math.floor(Math.random() * LIGHTING_STYLES.length)];
+
+  // 4. Construct Unified Prompt
   const prompt = `Reimagine ${subjectDescription} in an unmistakably Egyptian futuristic version of ${era.name}, Cairo, in the year 2100.
   
   CRITICAL ARCHITECTURE: The historical silhouettes, limestone textures, and ornate architectural details of ${era.name} MUST be the dominant focal point. ${era.promptInstructions}.
@@ -100,9 +103,8 @@ export const generateHistoricalImage = async (
   STYLE & ATMOSPHERE: 
   - A fusion of "Ancient Soul" and "New Energy". 
   - Avoid generic cyberpunk. Instead, use a "Neo-Egyptian" aesthetic: historical stone and wood textures merged with high-tech glass and bioluminescence.
-  - COLOR PALETTE: Natural limestone, warm desert-sand tones, and clear sky-blue accents.
-  - LIGHTING: Set during a bright, clear Egyptian morning with crisp, natural sunlight for a clean and professional outdoor look.
-
+  - LIGHTING: ${randomLighting}
+ 
   SUBJECT DETAILS:
   - CLOTHING (CRITICAL): COMPLETELY REPLACE the subject's original outfits and textures. The subject MUST ONLY wear: ${clothingDescription}. Ensure no original garment or accessory from the source remains visible.
   - Maintain the person's pose, likeness, and facial features.
@@ -110,7 +112,7 @@ export const generateHistoricalImage = async (
   ENVIRONMENT:
   - ${era.description}. 
   - Ensure the environment feels clean and grounded, focusing on the architectural beauty and atmospheric lighting of futuristic Cairo.
-  - DRONE LIGHT SHOW: In the morning sky, include a spectacular drone light show. Hundreds of small, glowing autonomous drones form massive, luminous Egyptian symbols such as a Pharaoh's death mask, a large Ankh, the Eye of Horus, or a Scarab. These symbols should appear like bright, glowing constellations clearly visible in the morning light.
+  - DRONE LIGHT SHOW: In the sky, include a spectacular drone light show. Hundreds of small, glowing autonomous drones form massive, luminous Egyptian symbols such as a Pharaoh's death mask, a large Ankh, the Eye of Horus, or a Scarab. These symbols should appear like bright, glowing constellations clearly visible in the sky.
 
   ${IDENTITY_PRESERVATION_GUIDE}`;
 
@@ -128,7 +130,7 @@ export const generateHistoricalImage = async (
   ];
 
   const requestConfig: any = {
-    temperature: 0.8,
+    temperature: 0.5,
     // @ts-ignore
     imageConfig: {
       aspectRatio: "2:3",
