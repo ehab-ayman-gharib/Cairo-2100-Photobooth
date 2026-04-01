@@ -110,6 +110,7 @@ export const generateHistoricalImage = async (
   ENVIRONMENT:
   - ${era.description}. 
   - Ensure the environment feels clean and grounded, focusing on the architectural beauty and atmospheric lighting of futuristic Cairo.
+  - DRONE LIGHT SHOW: In the morning sky, include a spectacular drone light show. Hundreds of small, glowing autonomous drones form massive, luminous Egyptian symbols such as a Pharaoh's death mask, a large Ankh, the Eye of Horus, or a Scarab. These symbols should appear like bright, glowing constellations clearly visible in the morning light.
 
   ${IDENTITY_PRESERVATION_GUIDE}`;
 

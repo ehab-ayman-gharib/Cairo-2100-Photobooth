@@ -38,34 +38,34 @@ export const ERAS: EraData[] = [
     name: 'Khan el-Khalili',
     nameAr: 'خان الخليلي',
     description: 'A labyrinth of light and history.',
-    promptInstructions: 'A cinematic view of a narrow, historic Khan el-Khalili alley. Ancient limestone walls and deep stone arches are filled with vibrant textiles and polished brass bazaar shops. The cobblestone street is clean, with subtle glowing blue LED accents tracing the edges. The lighting is warm and natural, creating a grounded but unmistakably futuristic Cairene marketplace.'
+    promptInstructions: 'A cinematic view of a narrow, historic Khan el-Khalili alley. Ancient limestone walls and deep stone arches are filled with vibrant textiles and polished brass bazaar shops. The cobblestone street is clean, with subtle glowing blue LED accents tracing the edges. The lighting is warm and natural. Looking up through the narrow gap between historic rooftops, a glowing drone light show forms complex Egyptian symbols in the morning sky.'
   },
   {
     id: EraId.TAHRIR,
     name: 'Tahrir Square',
     nameAr: 'ميدان التحرير',
     description: 'The pulse of Neo-Cairo.',
-    promptInstructions: 'A grand cinematic view of Tahrir Square in the bright morning sunlight. The central Obelisk is a skyscraper-sized pillar of light. The surrounding circular roads are ribbons of glowing neon purple and blue. The red facade of the Egyptian Museum is elegantly illuminated by architectural lighting.'
+    promptInstructions: 'A grand cinematic view of Tahrir Square in the bright morning sunlight. The central Obelisk is a skyscraper-sized pillar of light. The surrounding circular roads are ribbons of glowing neon purple and blue. The red facade of the Egyptian Museum is elegantly illuminated by architectural lighting. In the vast sky above the square, hundreds of drones form massive, glowing constellations of an Ankh and a Pharaoh mask.'
   },
   {
     id: EraId.NILE,
     name: 'The Nile & Qasr al-Nil',
     nameAr: 'النيل وقصر النيل',
     description: 'Where the river meets the grid.',
-    promptInstructions: 'Standing on the Qasr al-Nil bridge under a bright, clear morning sky. The heavy black steel rivets are traced with glowing teal LED lines. The iconic bronze lions have subtle amber ocular sensors. The Nile river below flows like dark liquid mercury, reflecting the neon skyline of the Cairo Tower.'
+    promptInstructions: 'Standing on the Qasr al-Nil bridge under a bright, clear morning sky. The heavy black steel rivets are traced with glowing teal LED lines. The iconic bronze lions have subtle amber ocular sensors. The Nile river below flows like dark liquid mercury, reflecting both the neon skyline and a massive, glowing drone light show portraying an Eye of Horus in the sky.'
   },
   {
     id: EraId.DOWNTOWN,
     name: 'Downtown (Khedivial Cairo)',
     nameAr: 'وسط البلد الخديوية',
     description: 'Belle Époque architecture reimagined.',
-    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and subtle glowing architectural highlights. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is bright, crisp, and sophisticated.'
+    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and subtle glowing architectural highlights. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is bright, crisp, and sophisticated. The sky above is filled with a spectacular, glowing drone constellation formed in the shape of a Scarab.'
   },
   {
     id: EraId.TOWER,
     name: 'Cairo Tower',
     nameAr: 'برج القاهرة',
     description: 'The Lotus of the Future.',
-    promptInstructions: 'A vertical composition looking up at the Cairo Tower. The concrete lotus mesh is filled with translucent smart-glass panels that change color. The base of the tower is surrounded by a dense solarpunk forest on Gezira Island, with glowing tropical flora and white maglev tracks winding through the palm trees.'
+    promptInstructions: 'A vertical composition looking up at the Cairo Tower. The concrete lotus mesh is filled with translucent smart-glass panels that change color. The base of the tower is surrounded by a dense solarpunk forest on Gezira Island, with glowing tropical flora and white maglev tracks winding through the palm trees. At the tower\'s peak, a massive, glowing drone light show forms the Eye of Horus and Lotus symbols.'
   }
 ];
