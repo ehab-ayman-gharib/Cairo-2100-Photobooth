@@ -22,14 +22,6 @@ export interface EraData {
   promptInstructions: string;
 }
 
-export interface PropData {
-  id: string;
-  name: string;
-  nameAr: string;
-  category: string;
-  icon: string;
-  prompt: string;
-}
 
 export interface FaceDetectionResult {
   maleCount: number;

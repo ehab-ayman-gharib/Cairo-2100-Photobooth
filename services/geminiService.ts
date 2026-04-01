@@ -1,6 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 import { EraData, FaceDetectionResult } from '../types';
-import { PROPS, WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE } from '../constants';
+import { WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE } from '../constants';
+
+let lastMaleWardrobeIndex = -1;
+let lastFemaleWardrobeIndex = -1;
 
 const getAiClient = () => {
   const apiKey = process.env.API_KEY;
@@ -63,24 +66,31 @@ export const generateHistoricalImage = async (
     subjectDescription = "a group of " + parts.join(', ').replace(/, ([^,]*)$/, ' and $1');
   }
 
-  // 2. Select Props and Wardrobe per subject type for variety
-  const selectedProps = [...PROPS].sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 2) + 1);
-  
+  // 2. Select Wardrobe per subject type for variety with anti-consecutive repetition
   const clothingParts: string[] = [];
+  
   if (faceData.maleCount > 0) {
-    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} wearing ${WARDROBE_STYLES[Math.floor(Math.random() * WARDROBE_STYLES.length)]}`);
+    let maleIndex;
+    do {
+      maleIndex = Math.floor(Math.random() * WARDROBE_STYLES.length);
+    } while (maleIndex === lastMaleWardrobeIndex && WARDROBE_STYLES.length > 1);
+    lastMaleWardrobeIndex = maleIndex;
+    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} wearing ${WARDROBE_STYLES[maleIndex]}`);
   }
+
   if (faceData.femaleCount > 0) {
-    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} wearing ${WARDROBE_STYLES[Math.floor(Math.random() * WARDROBE_STYLES.length)]}`);
+    let femaleIndex;
+    do {
+      femaleIndex = Math.floor(Math.random() * WARDROBE_STYLES.length);
+    } while (femaleIndex === lastFemaleWardrobeIndex && WARDROBE_STYLES.length > 1);
+    lastFemaleWardrobeIndex = femaleIndex;
+    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} wearing ${WARDROBE_STYLES[femaleIndex]}`);
   }
+
   if (faceData.childCount > 0) {
     clothingParts.push(`the ${faceData.childCount > 1 ? 'children' : 'child'} wearing cute, age-appropriate futuristic tech-wear`);
   }
   const clothingDescription = clothingParts.join(", ");
-
-  const propsPrompt = selectedProps.length > 0 
-    ? `The people should be ${selectedProps.map(p => p.prompt).join(' and ')}.`
-    : '';
 
   // 3. Construct Unified Prompt
   const prompt = `Reimagine ${subjectDescription} in an unmistakably Egyptian futuristic version of ${era.name}, Cairo, in the year 2100.
@@ -94,14 +104,13 @@ export const generateHistoricalImage = async (
   - LIGHTING: Set during "Maghrib" (golden hour sunset) for a warm, dramatic, and atmospheric feel.
 
   SUBJECT DETAILS:
-  - ${propsPrompt}
   - CLOTHING: ${clothingDescription}.
   - Maintain the person's pose, likeness, and facial features.
   
   ENVIRONMENT:
   - ${era.description}. 
   - Incorporate "FUTURE CAIRO" and "AUC Tahrir 2026 CultureFest" as subtle holographic branding elements within the environment.
-  - Add holographic AR overlays like Arabic calligraphy and geometric patterns rather than generic digital grids.
+  - Add holographic AR overlays like intricate heritage calligraphy and geometric patterns rather than generic digital grids.
 
   ${IDENTITY_PRESERVATION_GUIDE}`;
 

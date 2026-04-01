@@ -1,4 +1,4 @@
-import { EraData, EraId, PropData } from './types';
+import { EraData, EraId } from './types';
 
 /**
  * IDENTITY_PRESERVATION_GUIDE:
@@ -11,29 +11,7 @@ export const IDENTITY_PRESERVATION_GUIDE = `REQUIREMENTS:
 - Style: Hyper-realistic commercial photography, 8k resolution, shot on 35mm lens, f/1.8 for slight background bokeh.
 - Lighting: Volumetric "Golden Hour" sunlight mixed with localized neon glows; ensure light wraps realistically around the subject's silhouette.`;
 
-/**
- * PROPS:
- * These use "Visual Anchors" like 'brushed gold' and 'liquid plasma' 
- * to leverage Gemini's sensitivity to materiality.
- */
-export const PROPS: PropData[] = [
-  {
-    id: 'drone',
-    name: 'Pet Drone',
-    nameAr: 'طائرة مرافقة',
-    category: 'Companion',
-    icon: '🛸',
-    prompt: 'A sleek, silent hovering drone at shoulder level, crafted from brushed sand-blasted gold with glowing turquoise circuitry, inspired by a stylized scarab silhouette.'
-  },
-  {
-    id: 'energy',
-    name: 'Ankh Core',
-    nameAr: 'قلب الحياة',
-    category: 'Handheld',
-    icon: '⚡',
-    prompt: 'The subject holds a translucent glass Ankh pulsing with a core of liquid blue plasma, casting a cool ambient glow onto their face and chest.'
-  },
-];
+
 
 /**
  * WARDROBE_STYLES:
@@ -41,11 +19,11 @@ export const PROPS: PropData[] = [
  * utilizing Egyptian cotton, linen, and traditional embroidery.
  */
 export const WARDROBE_STYLES = [
-  "A structured, heavy-linen Galabeya in desert-sand color, featuring geometric 'Suna' patterns embroidered with glowing copper-wire thread along the hem and high collar.",
-  "A neo-traditional silk Kaftan in deep indigo, layered with a flexible carbon-fiber vest and glowing amber-beaded trim along the sleeves.",
-  "A sharp-cut linen blazer with 'Mashrabiya' laser-cut patterns on the lapels, revealing a shimmering holographic under-layer.",
-  "A modern draped Abaya made of smart-fabric that shimmers like liquid silver, featuring bioluminescent gold hieroglyphs flowing slowly across the fabric surface.",
-  "High-tech Cairene ceremonial attire: a stiff linen tunic with an integrated glowing pectoral plate made of polished turquoise and weathered copper."
+  "A tailored linen blazer in desert-sand, featuring subtle geometric 'Suna' patterns embroidered with refined copper thread along the lapels.",
+  "A structured silk vest in deep indigo, featuring a minimalist high-collar and fine amber-beaded trim along the seams.",
+  "A sharp-cut cotton duster coat with 'Mashrabiya' laser-etched patterns on the shoulders, paired with a sleek monochromatic turtleneck.",
+  "A modern draped wrap-jacket made of high-end Egyptian cotton, featuring subtle metallic gold hieroglyphs woven directly into the fabric.",
+  "Sophisticated urban Cairene attire: a structured linen utility-jacket with polished turquoise-and-copper button accents and a slim, modern silhouette."
 ];
 
 /**
@@ -80,7 +58,7 @@ export const ERAS: EraData[] = [
     name: 'Downtown (Khedivial Cairo)',
     nameAr: 'وسط البلد الخديوية',
     description: 'Belle Époque architecture reimagined.',
-    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and floating Arabic calligraphy neon signs. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is high-contrast, moody, and sophisticated.'
+    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and floating intricate heritage calligraphy neon signs. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is high-contrast, moody, and sophisticated.'
   },
   {
     id: EraId.TOWER,

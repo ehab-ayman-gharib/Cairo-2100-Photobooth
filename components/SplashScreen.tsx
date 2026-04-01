@@ -10,6 +10,8 @@ interface SplashScreenProps {
   setIsMuted: (muted: boolean) => void;
 }
 
+let lastEraIndex = -1;
+
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra, isMuted, setIsMuted }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -36,13 +38,23 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
   };
 
   const handleVideoEnded = () => {
-    if (isExiting) return;
+    if (isExitingRef.current) return;
 
     setIsExiting(true);
     isExitingRef.current = true;
 
-    // Select random era
-    const randomEra = ERAS[Math.floor(Math.random() * ERAS.length)];
+    // Select random era with anti-consecutive repetition
+    let eraIndex;
+    if (ERAS.length > 1) {
+      do {
+        eraIndex = Math.floor(Math.random() * ERAS.length);
+      } while (eraIndex === lastEraIndex);
+    } else {
+      eraIndex = 0;
+    }
+    lastEraIndex = eraIndex;
+    
+    const randomEra = ERAS[eraIndex];
 
     setTimeout(() => {
       onSelectEra(randomEra);
