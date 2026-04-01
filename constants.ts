@@ -7,9 +7,9 @@ import { EraData, EraId } from './types';
  */
 export const IDENTITY_PRESERVATION_GUIDE = `REQUIREMENTS:
 - CRITICAL: Maintain exact facial features, bone structure, and skin tone. No facial morphing.
-- Wardrobe: Replace current clothing with high-end Neo-Egyptian fashion using heavy-weight Egyptian linen, structured silk, and matte metallic accents.
+- Wardrobe: MANDATORY COMPLETE REPLACEMENT. Remove all original clothing. The subject must ONLY wear the high-quality casual attire described in the specific wardrobe selection.
 - Style: Hyper-realistic commercial photography, 8k resolution, shot on 35mm lens, f/1.8 for slight background bokeh.
-- Lighting: Volumetric "Golden Hour" sunlight mixed with localized neon glows; ensure light wraps realistically around the subject's silhouette.`;
+- Lighting: Volumetric "Morning Light" sunlight; ensure light wraps realistically around the subject's silhouette.`;
 
 
 
@@ -19,11 +19,12 @@ export const IDENTITY_PRESERVATION_GUIDE = `REQUIREMENTS:
  * utilizing Egyptian cotton, linen, and traditional embroidery.
  */
 export const WARDROBE_STYLES = [
-  "A tailored linen blazer in desert-sand, featuring subtle geometric 'Suna' patterns embroidered with refined copper thread along the lapels.",
-  "A structured silk vest in deep indigo, featuring a minimalist high-collar and fine amber-beaded trim along the seams.",
-  "A sharp-cut cotton duster coat with 'Mashrabiya' laser-etched patterns on the shoulders, paired with a sleek monochromatic turtleneck.",
-  "A modern draped wrap-jacket made of high-end Egyptian cotton, featuring subtle metallic gold hieroglyphs woven directly into the fabric.",
-  "Sophisticated urban Cairene attire: a structured linen utility-jacket with polished turquoise-and-copper button accents and a slim, modern silhouette."
+  "A clean white t-shirt paired with perfectly fitted blue denim jeans and white sneakers.",
+  "A casual navy blue crew-neck sweater worn over charcoal chinos for a modern, simple look.",
+  "A smart-casual grey blazer layered over a plain black t-shirt and dark trousers.",
+  "A simple and elegant long-sleeved blouse in a soft lilac tone, paired with light-coloured pants.",
+  "A relaxed olive green button-down shirt, worn unbuttoned over a white tee with casual jeans.",
+  "A modern, minimalist solid-colored dress in a soft neutral tone with simple clean lines."
 ];
 
 /**
@@ -37,28 +38,28 @@ export const ERAS: EraData[] = [
     name: 'Khan el-Khalili',
     nameAr: 'خان الخليلي',
     description: 'A labyrinth of light and history.',
-    promptInstructions: 'Deep perspective shot of a narrow Khan el-Khalili alley. The limestone walls are weathered and ancient. Thousands of floating, bioluminescent copper lanterns create a "sea of stars" overhead. Warm amber light bounces off damp cobblestones and intricate wooden Mashrabiya windows. The air is thick with a golden, dusty haze.'
+    promptInstructions: 'A cinematic view of a narrow, historic Khan el-Khalili alley. Ancient limestone walls and deep stone arches are filled with vibrant textiles and polished brass bazaar shops. The cobblestone street is clean, with subtle glowing blue LED accents tracing the edges. The lighting is warm and natural, creating a grounded but unmistakably futuristic Cairene marketplace.'
   },
   {
     id: EraId.TAHRIR,
     name: 'Tahrir Square',
     nameAr: 'ميدان التحرير',
     description: 'The pulse of Neo-Cairo.',
-    promptInstructions: 'A grand cinematic view of Tahrir Square at dusk. The central Obelisk is a skyscraper-sized pillar of light. The surrounding circular roads are ribbons of glowing neon purple and blue. The red facade of the Egyptian Museum is illuminated by massive floating holographic projections of Tutankhamun’s mask.'
+    promptInstructions: 'A grand cinematic view of Tahrir Square in the bright morning sunlight. The central Obelisk is a skyscraper-sized pillar of light. The surrounding circular roads are ribbons of glowing neon purple and blue. The red facade of the Egyptian Museum is elegantly illuminated by architectural lighting.'
   },
   {
     id: EraId.NILE,
     name: 'The Nile & Qasr al-Nil',
     nameAr: 'النيل وقصر النيل',
     description: 'Where the river meets the grid.',
-    promptInstructions: 'Standing on the Qasr al-Nil bridge. The heavy black steel rivets are traced with glowing teal LED lines. The iconic bronze lions have subtle amber ocular sensors. The Nile river below flows like dark liquid mercury, reflecting a massive holographic moon and the neon skyline of the Cairo Tower.'
+    promptInstructions: 'Standing on the Qasr al-Nil bridge under a bright, clear morning sky. The heavy black steel rivets are traced with glowing teal LED lines. The iconic bronze lions have subtle amber ocular sensors. The Nile river below flows like dark liquid mercury, reflecting the neon skyline of the Cairo Tower.'
   },
   {
     id: EraId.DOWNTOWN,
     name: 'Downtown (Khedivial Cairo)',
     nameAr: 'وسط البلد الخديوية',
     description: 'Belle Époque architecture reimagined.',
-    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and floating intricate heritage calligraphy neon signs. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is high-contrast, moody, and sophisticated.'
+    promptInstructions: 'A vibrant street scene at Talaat Harb Square. Ornate 19th-century European-style facades are draped in vertical gardens and subtle glowing architectural highlights. Retro-futuristic hover-taxis glide between the French-style balconies. The lighting is bright, crisp, and sophisticated.'
   },
   {
     id: EraId.TOWER,

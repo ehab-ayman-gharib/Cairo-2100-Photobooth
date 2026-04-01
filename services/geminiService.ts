@@ -68,7 +68,7 @@ export const generateHistoricalImage = async (
 
   // 2. Select Wardrobe per subject type for variety with anti-consecutive repetition
   const clothingParts: string[] = [];
-  
+
   if (faceData.maleCount > 0) {
     let maleIndex;
     do {
@@ -100,17 +100,16 @@ export const generateHistoricalImage = async (
   STYLE & ATMOSPHERE: 
   - A fusion of "Ancient Soul" and "New Energy". 
   - Avoid generic cyberpunk. Instead, use a "Neo-Egyptian" aesthetic: historical stone and wood textures merged with high-tech glass and bioluminescence.
-  - COLOR PALETTE: Warm ochre stone, desert gold, and deep sunset oranges, accented with cool bioluminescent cyan light ribbons.
-  - LIGHTING: Set during "Maghrib" (golden hour sunset) for a warm, dramatic, and atmospheric feel.
+  - COLOR PALETTE: Natural limestone, warm desert-sand tones, and clear sky-blue accents.
+  - LIGHTING: Set during a bright, clear Egyptian morning with crisp, natural sunlight for a clean and professional outdoor look.
 
   SUBJECT DETAILS:
-  - CLOTHING: ${clothingDescription}.
+  - CLOTHING (CRITICAL): COMPLETELY REPLACE the subject's original outfits and textures. The subject MUST ONLY wear: ${clothingDescription}. Ensure no original garment or accessory from the source remains visible.
   - Maintain the person's pose, likeness, and facial features.
   
   ENVIRONMENT:
   - ${era.description}. 
-  - Incorporate "FUTURE CAIRO" and "AUC Tahrir 2026 CultureFest" as subtle holographic branding elements within the environment.
-  - Add holographic AR overlays like intricate heritage calligraphy and geometric patterns rather than generic digital grids.
+  - Ensure the environment feels clean and grounded, focusing on the architectural beauty and atmospheric lighting of futuristic Cairo.
 
   ${IDENTITY_PRESERVATION_GUIDE}`;
 
@@ -128,10 +127,11 @@ export const generateHistoricalImage = async (
   ];
 
   const requestConfig: any = {
-    temperature: 0.5,
+    temperature: 0.8,
     // @ts-ignore
     imageConfig: {
-      aspectRatio: "2:3"
+      aspectRatio: "2:3",
+      imageSize: "1K"
     },
     safetySettings: safetySettings
   };
@@ -139,7 +139,7 @@ export const generateHistoricalImage = async (
   try {
     // 4. Send to Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'gemini-3.1-flash-image-preview',
       config: requestConfig,
       contents: [
         {
