@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { EraData, FaceDetectionResult } from '../types';
-import { WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE, LIGHTING_STYLES } from '../constants';
+import { MALE_WARDROBE_STYLES, FEMALE_WARDROBE_STYLES, IDENTITY_PRESERVATION_GUIDE, LIGHTING_STYLES } from '../constants';
 
 let lastMaleWardrobeIndex = -1;
 let lastFemaleWardrobeIndex = -1;
@@ -72,23 +72,23 @@ export const generateHistoricalImage = async (
   if (faceData.maleCount > 0) {
     let maleIndex;
     do {
-      maleIndex = Math.floor(Math.random() * WARDROBE_STYLES.length);
-    } while (maleIndex === lastMaleWardrobeIndex && WARDROBE_STYLES.length > 1);
+      maleIndex = Math.floor(Math.random() * MALE_WARDROBE_STYLES.length);
+    } while (maleIndex === lastMaleWardrobeIndex && MALE_WARDROBE_STYLES.length > 1);
     lastMaleWardrobeIndex = maleIndex;
-    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} wearing ${WARDROBE_STYLES[maleIndex]}`);
+    clothingParts.push(`the ${faceData.maleCount > 1 ? 'men' : 'man'} MUST ONLY wear ${MALE_WARDROBE_STYLES[maleIndex]}`);
   }
 
   if (faceData.femaleCount > 0) {
     let femaleIndex;
     do {
-      femaleIndex = Math.floor(Math.random() * WARDROBE_STYLES.length);
-    } while (femaleIndex === lastFemaleWardrobeIndex && WARDROBE_STYLES.length > 1);
+      femaleIndex = Math.floor(Math.random() * FEMALE_WARDROBE_STYLES.length);
+    } while (femaleIndex === lastFemaleWardrobeIndex && FEMALE_WARDROBE_STYLES.length > 1);
     lastFemaleWardrobeIndex = femaleIndex;
-    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} wearing ${WARDROBE_STYLES[femaleIndex]}`);
+    clothingParts.push(`the ${faceData.femaleCount > 1 ? 'women' : 'woman'} MUST ONLY wear ${FEMALE_WARDROBE_STYLES[femaleIndex]}`);
   }
 
   if (faceData.childCount > 0) {
-    clothingParts.push(`the ${faceData.childCount > 1 ? 'children' : 'child'} wearing cute, age-appropriate futuristic tech-wear`);
+    clothingParts.push(`the ${faceData.childCount > 1 ? 'children' : 'child'} MUST ONLY wear cute, age-appropriate futuristic tech-wear made from Egyptian cotton and smart fabrics`);
   }
   const clothingDescription = clothingParts.join(", ");
 
@@ -106,8 +106,8 @@ export const generateHistoricalImage = async (
   - LIGHTING: ${randomLighting}
  
   SUBJECT DETAILS:
-  - CLOTHING (CRITICAL): COMPLETELY REPLACE the subject's original outfits and textures. The subject MUST ONLY wear: ${clothingDescription}. Ensure no original garment or accessory from the source remains visible.
-  - Maintain the person's pose, likeness, and facial features.
+  - CLOTHING (MANDATORY TRANSFORMATION): You MUST ABSOLUTELY ERASE and DISCARD all original clothing and accessories from the source image. COMPLETELY REPLACE the subject's outfit. The subject MUST ONLY wear: ${clothingDescription}. Ensure NO TRACE of the original garment/style remains visible.
+  - Maintain the subject’s physical likeness, bone structure, and original pose exactly, but render them entirely in the new specified wardrobe.
   
   ENVIRONMENT:
   - ${era.description}. 
@@ -130,11 +130,11 @@ export const generateHistoricalImage = async (
   ];
 
   const requestConfig: any = {
-    temperature: 1,
+    temperature: 0.5,
     // @ts-ignore
     imageConfig: {
       aspectRatio: "2:3",
-      // imageSize: "1K"
+      imageSize: "1K"
     },
     safetySettings: safetySettings
   };
@@ -142,7 +142,7 @@ export const generateHistoricalImage = async (
   try {
     // 4. Send to Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'gemini-3.1-flash-image-preview',
       config: requestConfig,
       contents: [
         {

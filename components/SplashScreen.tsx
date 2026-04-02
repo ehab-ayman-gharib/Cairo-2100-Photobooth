@@ -151,7 +151,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
         
         {/* Still Image - Always present but hidden behind the video initially */}
         <img 
-          src="/Intro-Still.png" 
+          src="./Intro-Still.png" 
           alt="Intro Still" 
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoFinished ? 'opacity-100' : 'opacity-0'}`} 
         />
@@ -164,7 +164,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
           playsInline
           onEnded={handleVideoEnded}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoFinished ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-          src="/Intro.mp4"
+          src="./Intro.mp4"
         />
       </div>
 
@@ -176,7 +176,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart, onSelectEra
             className="focus:outline-none hover:scale-105 active:scale-75 transition-transform duration-300 transform"
           >
             <img
-              src="/New-Journey-Btn.png"
+              src="./New-Journey-Btn.png"
               alt="Start Journey"
               className="max-w-[450px] drop-shadow-[0_0_30px_rgba(0,183,255,0.5)]"
             />

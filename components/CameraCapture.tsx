@@ -226,7 +226,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ era, onCapture, on
       <style>{`
         @font-face {
           font-family: 'Lalezar';
-          src: url('/Lalezar-Regular.ttf') format('truetype');
+          src: url('./Lalezar-Regular.ttf') format('truetype');
           font-weight: normal;
           font-style: normal;
         }

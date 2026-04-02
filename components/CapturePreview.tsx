@@ -76,7 +76,7 @@ export const CapturePreview: React.FC<CapturePreviewProps> = ({
       <style>{`
         @font-face {
           font-family: 'Lalezar';
-          src: url('/Lalezar-Regular.ttf') format('truetype');
+          src: url('./Lalezar-Regular.ttf') format('truetype');
           font-weight: normal; font-style: normal;
         }
         .brand-font {
