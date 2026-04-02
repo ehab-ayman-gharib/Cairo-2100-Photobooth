@@ -18,20 +18,19 @@ export const CapturePreview: React.FC<CapturePreviewProps> = ({
   const [timeLeft, setTimeLeft] = useState(5);
 
   useEffect(() => {
+    if (timeLeft === 0) {
+      onProceed();
+    }
+  }, [timeLeft, onProceed]);
+
+  useEffect(() => {
     // Timer to auto-advance if no action taken
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          onProceed();
-          return 0;
-        }
-        return prev - 1;
-      });
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [onProceed]);
+  }, []);
 
   return (
     <div className="h-full w-full relative overflow-hidden bg-black flex flex-col items-center justify-center p-6">

@@ -112,7 +112,7 @@ export const generateHistoricalImage = async (
   ENVIRONMENT:
   - ${era.description}. 
   - Ensure the environment feels clean and grounded, focusing on the architectural beauty and atmospheric lighting of futuristic Cairo.
-  - DRONE LIGHT SHOW: In the sky, include a spectacular drone light show. Hundreds of small, glowing autonomous drones form massive, luminous Egyptian symbols such as a Pharaoh's death mask, a large Ankh, the Eye of Horus, or a Scarab. These symbols should appear like bright, glowing constellations clearly visible in the sky.
+  - DRONE LIGHT SHOW: In the sky, a single luminous Egyptian symbol (such as an Ankh, Scarab, or Eye of Horus) is elegantly formed by glowing drones, appearing like a bright, singular constellation.
 
   ${IDENTITY_PRESERVATION_GUIDE}`;
 
@@ -130,11 +130,11 @@ export const generateHistoricalImage = async (
   ];
 
   const requestConfig: any = {
-    temperature: 0.5,
+    temperature: 1,
     // @ts-ignore
     imageConfig: {
       aspectRatio: "2:3",
-      imageSize: "1K"
+      // imageSize: "1K"
     },
     safetySettings: safetySettings
   };
@@ -142,7 +142,7 @@ export const generateHistoricalImage = async (
   try {
     // 4. Send to Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-3.1-flash-image-preview',
+      model: 'gemini-2.5-flash-image',
       config: requestConfig,
       contents: [
         {

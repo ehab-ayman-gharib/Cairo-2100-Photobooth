@@ -19,10 +19,10 @@ const MatrixRain: React.FC = () => {
       '☥', '𓂀', '𓆗', '𓅓', '𓃻', '𓄚', '𓊄'
     ];
 
-    const fontSize = 42; 
+    const fontSize = 42;
     const spacing = 1.6;
     const columns = Math.ceil(width / (fontSize * spacing));
-    
+
     // Track drop state: { y, symbols[] } 
     const drops = new Array(columns).fill(0).map(() => ({
       y: Math.random() * -20,
@@ -33,7 +33,7 @@ const MatrixRain: React.FC = () => {
       // CLEAR FULLY for total sharpness
       ctx.clearRect(0, 0, width, height);
 
-      ctx.font = `${fontSize}px "Segoe UI Historic", serif`; 
+      ctx.font = `${fontSize}px "Segoe UI Historic", serif`;
 
       for (let i = 0; i < drops.length; i++) {
         const drop = drops[i];
@@ -43,12 +43,12 @@ const MatrixRain: React.FC = () => {
         for (let j = 0; j < drop.charIndices.length; j++) {
           const symbol = symbols[drop.charIndices[j]];
           const y = (drop.y - j) * fontSize;
-          
+
           if (y < -fontSize || y > height + fontSize) continue;
 
           // Descending alpha for a clean "comet" look, not blurry
           const alpha = Math.max(0, 1 - (j / drop.charIndices.length));
-          
+
           // Head of the drop is brighter with a glow
           if (j === 0) {
             ctx.fillStyle = `rgba(0, 255, 255, ${alpha * 0.9})`;
@@ -96,7 +96,7 @@ export const LoadingScreen: React.FC = () => {
   return (
     <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-center p-6 overflow-hidden">
       <MatrixRain />
-      
+
       <div className="relative mb-2 animate-pulse-slow">
         {/* Portal ring layered above matrix */}
         <PortalRing size={520} />
@@ -104,18 +104,15 @@ export const LoadingScreen: React.FC = () => {
       </div>
 
       <div className="mt-[-2rem] space-y-4 relative z-10">
-        <h3 
+        <h3
           className="text-4xl font-bold text-white tracking-[0.3em] uppercase animate-in slide-in-bottom duration-700"
-          style={{ 
+          style={{
             fontFamily: '"Lalezar", cursive',
             textShadow: '0 0 15px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.4)'
           }}
         >
           Initializing visual synthesis…..
         </h3>
-        <p className="text-cyan-400 font-mono text-[10px] tracking-widest uppercase opacity-80 animate-pulse">
-           Neural networks converging • Stabilizing identity matrix • Era synchronization: 2100 AD
-        </p>
       </div>
 
       <style>{`
